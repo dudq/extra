@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone List</title>
+</head>
+<body>
+<a href="/phone/create">Create new phone</a>
+<h1>Phone List</h1>
+<form>
+    <a href="/sort">Sort by Date Of Purchase</a>
+</form>
+<form>
+    Search by name
+    <input name = "s" th:type="text"/>
+    <input type="submit" value="Search">
+</form>
+<form th:action="@{/searchByCategory}" onchange="this.submit()">
+    <a>Search by category</a>
+    <select name="search">
+        <option value=-1></option>
+        <option th:each="category :${categories}"
+                th:text="${category.name}"
+                th:value="${category.id}"
+                th:selected="(${category.getId()}==${search})"></option>
+    </select>
+
+</form>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Date Of Purchase</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <th:block th:each="phone : ${phones}">
+        <tr>
+            <td><a th:href="@{/phone/view/__${phone.id}__}" th:text="${phone.name}"></a></td>
+            <td th:text="${phone.dateOfPurchase}"></td>
+            <td th:text="${phone.price}"></td>
+            <td th:text="${phone.description}"></td>
+            <td th:text="${phone.category.name}"></td>
+            <td><a th:href="@{/phone/edit/__${phone.id}__ }">Edit</a></td>
+            <td><a th:href="@{/phone/delete/__${phone.id}__ }">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <a th:href="@{'/phones'(page = ${phones.number - 1})}" th:if="${phones.hasPrevious()}">Previous</a>
+    <span th:text="${phones.number+1}"></span>/<span th:text="${phones.totalPages}"></span>
+    <a th:href="@{'/phones'(page = ${phones.number + 1})}" th:if="${phones.hasNext()}">Next</a>
+</div>
+</body>
+</html>
