@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View category</title>
+</head>
+<body>
+<h1>Category Detail</h1>
+<p>
+    <a href="/categories">Category list</a>
+</p>
+<form method="post" th:object="${category}">
+    <input name="id" th:field="*{id}" th:type="hidden">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td th:text="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td th:text="*{description}"></td>
+        </tr>
+    </table>
+</form>
+<h2>Phones of Category</h2>
+<form th:object="${books}">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Date Of Purchase</td>
+            <td>Price</td>
+            <td>Description</td>
+        </tr>
+        <th:block th:each="book: ${books}">
+            <tr>
+                <td th:text="${book.name}"></td>
+                <td th:text="${book.dateOfPurchase}"></td>
+                <td th:text="${book.price}"></td>
+                <td th:text="${book.description}"></td>
+            </tr>
+        </th:block>
+    </table>
+</form>
+</body>
+</html>
